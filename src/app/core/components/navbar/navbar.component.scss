@@ -1,5 +1,4 @@
-$border-color: #333;
-$text-color: grey;
+@import "assets/scss/variables";
 
 nav {
   border: 2px solid $border-color;
