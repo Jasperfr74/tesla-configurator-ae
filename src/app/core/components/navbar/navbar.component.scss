@@ -1,4 +1,4 @@
-@import "assets/scss/variables";
+@import "../../../../assets/scss/variables";
 
 nav {
   border: 2px solid $border-color;
@@ -35,4 +35,6 @@ nav {
   }
 }
 
-
+.disabled {
+  cursor: url('../../../../assets/not-allowed.png'), not-allowed;
+}

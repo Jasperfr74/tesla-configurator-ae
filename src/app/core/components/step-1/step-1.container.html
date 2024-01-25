@@ -1,0 +1,5 @@
+<app-step-1
+    [teslaModelInformation]="teslaModelInformation$ | async"
+    (updateStep1Form)="onUpdateStep1Form($event)"
+    (imagePathGenerated)="onSaveImagePath($event)"
+/>

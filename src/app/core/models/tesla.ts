@@ -1,6 +1,6 @@
 export interface Tesla {
-  code: ModelAvailable;
-  description: string;
+  code: ModelCodeAvailable;
+  description: ModelDescriptionAvailable;
   colors: Color[];
 }
 
@@ -18,15 +18,19 @@ export interface Config {
   price: number;
 }
 
-export type ModelAvailable = 'S' | 'X' | 'C' | '3' | 'Y';
-
-export type ColorAvailable = 'white' | 'black'| 'blue' | 'grey'| 'red';
+export interface Step1FormInterface {
+  currentModel: ModelDescriptionAvailable;
+  currentColor: ColorAvailable
+}
 
 export type Option = {
-  [key in ModelAvailable]: {
+  [key in ModelCodeAvailable]: {
     configs: Config[];
     towHitch: boolean;
     yoke: boolean;
   };
 };
 
+export type ModelCodeAvailable = 'S' | 'X' | 'C' | '3' | 'Y';
+export type ModelDescriptionAvailable = 'Model S' | 'Model X' | 'Cybertruck' | 'Model 3' | 'Model Y';
+export type ColorAvailable = 'white' | 'black'| 'blue' | 'grey'| 'red';

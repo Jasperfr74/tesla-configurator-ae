@@ -1,7 +1,30 @@
 <nav>
     <ul>
-        <li><a routerLink="/step-1" routerLinkActive="active" ariaCurrentWhenActive="step">Step 1</a></li>
-        <li><a routerLink="/step-2" routerLinkActive="active" ariaCurrentWhenActive="step">Step 2</a></li>
-        <li><a routerLink="/step-3" routerLinkActive="active" ariaCurrentWhenActive="step">Step 3</a></li>
+        <li>
+            <a routerLink="/step-1"
+               routerLinkActive="active"
+               ariaCurrentWhenActive="step"
+               id="step1">
+                Step 1
+            </a>
+        </li>
+
+        <li>
+            <a [routerLink]="isStep1Valid ? 'step-2': ''"
+               [ngClass]="{'disabled': !isStep1Valid}"
+               routerLinkActive="active"
+               ariaCurrentWhenActive="step"
+               id="step2">
+                Step 2
+            </a>
+        </li>
+        <li>
+            <a routerLink="/step-3"
+               routerLinkActive="active"
+               ariaCurrentWhenActive="step"
+               id="step3">
+                Step 3
+            </a>
+        </li>
     </ul>
 </nav>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-step-2',
@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './step-2.component.scss'
 })
 export class Step2Component {
-
+  @Input() currentStep!: number | null;
 }
