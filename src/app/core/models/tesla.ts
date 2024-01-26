@@ -19,8 +19,10 @@ export interface Config {
 }
 
 export interface Step1FormInterface {
+  selectedModel: Tesla;
   currentModel: ModelDescriptionAvailable;
-  currentColor: ColorAvailable
+  currentColor: ColorAvailable;
+  imagePathGenerated: string;
 }
 
 export type Option = {

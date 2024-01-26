@@ -3,7 +3,7 @@
 <div class="step-1-container">
     <div class="tesla-models" [formGroup]="step1Form">
         <label for="modelSelect">Model:</label>
-        <select name="models" id="modelSelect" formControlName="currentModel" (change)="onModelChange()">
+        <select name="models" id="modelSelect" formControlName="currentModel" (change)="onModelChange($event)">
             @if (teslaModelInformation?.length) {
                 <option value="" selected>Choose...</option>
                 @for (option of teslaModelInformation; track option.code) {
@@ -13,12 +13,12 @@
         </select>
     </div>
 
-    @if (selectedModelColors?.length) {
+    @if (selectedModel) {
         <div class="tesla-colors" [formGroup]="step1Form">
             <label for="colorSelect">Color:</label>
-            <select name="colors" id="colorSelect" formControlName="currentColor" (change)="onColorChange()">
+            <select name="colors" id="colorSelect" formControlName="currentColor" (change)="onColorChange($event)">
                 <option value="" selected>Choose...</option>
-                @for (color of selectedModelColors;track color.code) {
+                @for (color of selectedModel?.colors; track color.code) {
                     <option [value]="color.code">{{ color?.description }}</option>
                 }
             </select>
@@ -26,4 +26,4 @@
     }
 </div>
 
-<app-image [path]="step1Form.get('imagePathGenerated')?.value" [alt]="selectedModel?.description"/>
+<app-image [path]="step1Form.get('imagePathGenerated')?.value" [alt]="step1FormState?.selectedModel?.description"/>

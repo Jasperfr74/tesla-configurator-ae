@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { JsonPipe } from '@angular/common';
-import { Color, Step1FormInterface, Tesla } from '../../models/tesla';
+import { Color, ModelCodeAvailable, Step1FormInterface, Tesla } from '../../models/tesla';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, tap } from 'rxjs';
 import { ImageComponent } from '../image/image.component';
@@ -17,49 +17,72 @@ import { ImageComponent } from '../image/image.component';
   styleUrl: './step-1.component.scss'
 })
 export class Step1Component implements OnInit {
-  step1Form!: FormGroup;
-  selectedModelColors?: Color[];
-  selectedModel?: Tesla;
+  step1Form!: FormGroup; // add type
+  selectedModel: Tesla|undefined = undefined;
 
   @Input() teslaModelInformation!: Tesla[] | null;
+  @Input() step1FormState!: Step1FormInterface | null;
 
   @Output() updateStep1Form: EventEmitter<Step1FormInterface> = new EventEmitter<Step1FormInterface>();
-  @Output() imagePathGenerated: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private formBuilder: FormBuilder) {}
 
-  onModelChange(): void {
-    const selectedModelCode = this.step1Form.get('currentModel')?.value;
-    this.selectedModel = this.teslaModelInformation?.find(model => model.description === selectedModelCode) || undefined;
-    this.selectedModelColors = this.selectedModel?.colors || [];
-    this.step1Form.get('currentColor')?.setValue(this.selectedModelColors?.[0]?.code);
-    this.updateFormValues();
+  onModelChange(event: Event): void {
+    if (!event) return;
+
+    const selectedModelCode = (event.target as HTMLInputElement).value;
+    this.selectedModel = this.teslaModelInformation?.find(model => model.description === selectedModelCode);
+
+    this.step1Form.get('selectedModel')?.patchValue(this.selectedModel);
+    this.step1Form.get('currentColor')?.patchValue(this.selectedModel?.colors?.[0].code);
+
+    this.saveNewImagePath();
   }
 
-  onColorChange(): void {
-    const selectedColor = this.step1Form.get('currentColor')?.value;
-    const color = this.selectedModelColors?.find(color => color.code === selectedColor) || undefined;
-    this.step1Form.get('currentColor')?.setValue(color?.code);
-    this.updateFormValues();
+  onColorChange(event: Event): void {
+    if (!event) return;
+
+    const selectedColor = (event.target as HTMLInputElement).value;
+    const color = this.selectedModel?.colors?.find((color: Color) => color.code === selectedColor);
+
+    this.step1Form.get('currentColor')?.patchValue(color?.code);
+
+    this.saveNewImagePath();
   }
 
-  ngOnInit() {
+  setExistingSelectedModel(){
+    if (this.step1FormState?.selectedModel) {
+      this.selectedModel = this.step1FormState?.selectedModel;
+    }
+  }
+
+  initForm() {
     this.step1Form = this.formBuilder.group({
-      currentModel: new FormControl<string>(''),
-      currentColor: new FormControl<string>(''),
-      imagePathGenerated: new FormControl<string>(''),
+      selectedModel: new FormControl<Tesla|null>(this.step1FormState?.selectedModel || null),
+      currentModel: new FormControl<string>(this.step1FormState?.currentModel || ''),
+      currentColor: new FormControl<string>(this.step1FormState?.currentColor || ''),
+      imagePathGenerated: new FormControl<string>(this.step1FormState?.imagePathGenerated || ''),
     })
+  }
 
+  listenToUpdateForm() {
     this.step1Form.valueChanges.pipe(
       debounceTime(300),
-      tap(value => {
+      tap((value: Step1FormInterface) => {
         this.updateStep1Form.next(value);
       })
     ).subscribe()
   }
 
-  private updateFormValues(): void {
-    const code = this.selectedModel?.code;
+  ngOnInit() {
+    this.initForm();
+    this.listenToUpdateForm();
+    this.setExistingSelectedModel();
+  }
+
+
+  private saveNewImagePath(): void {
+    const code: ModelCodeAvailable = (this.step1Form.get('selectedModel')?.value as Tesla).code;
     const currentColor = this.step1Form.get('currentColor')?.value;
 
     if (code && currentColor) {

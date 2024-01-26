@@ -17,8 +17,8 @@ import { Step1FormInterface } from '../../models/tesla';
   templateUrl: './navbar.container.html'
 })
 export class NavbarContainer {
-  step1Form$: Observable<Step1FormInterface> = this.store.select(getStep1Form);
-  isStep1Valid$: Observable<boolean> = this.store.select(isStep1Valid);
+  step1Form$: Observable<Step1FormInterface|null> = this.store.select(getStep1Form);
+  isStep1Valid$: Observable<boolean|null> = this.store.select(isStep1Valid);
 
   constructor(
     private store: Store

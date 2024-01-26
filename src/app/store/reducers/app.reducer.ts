@@ -6,17 +6,17 @@ export interface AppState {
   step: number;
   teslaInformation: Tesla[];
   step1Form: Step1FormInterface;
-  imagePath: string;
 }
 
 export const initialState = {
   step: 1,
   teslaInformation: {},
   step1Form: {
+    selectedModel: {},
     currentModel: '',
-    currentColor: ''
+    currentColor: '',
+    imagePathGenerated: '',
   },
-  imagePath: '',
 };
 
 export const appReducer = createReducer(
@@ -44,12 +44,6 @@ export const appReducer = createReducer(
     ({
       ...state,
       step1Form
-    })),
-  on(AppActions.saveImagePath, (
-    state, { path } ) =>
-    ({
-      ...state,
-      imagePath: path
     })),
 );
 
