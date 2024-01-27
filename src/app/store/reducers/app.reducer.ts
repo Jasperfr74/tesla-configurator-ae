@@ -15,6 +15,7 @@ export const initialState = {
   step1Form: {
     selectedModel: {},
     currentModel: '',
+    selectedColor: {},
     currentColor: '',
     imagePathGenerated: '',
     isDirty: false,

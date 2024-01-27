@@ -1,15 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { JsonPipe } from '@angular/common';
 import { Color, ModelCodeAvailable, Step1FormInterface, Tesla } from '../../models/tesla';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, tap } from 'rxjs';
-import { ImageComponent } from '../image/image.component';
+import { tap } from 'rxjs';
+import { ImageComponent } from '../../../shared/components/image/image.component';
+
 
 @Component({
   selector: 'app-step-1',
   standalone: true,
   imports: [
-    JsonPipe,
     ReactiveFormsModule,
     ImageComponent,
   ],
@@ -19,7 +18,6 @@ import { ImageComponent } from '../image/image.component';
 export class Step1Component implements OnInit {
   step1Form!: FormGroup; // add type
   selectedModel: Tesla|undefined = undefined;
-  modelChanged = '';
 
   @Input() teslaModelInformation!: Tesla[] | null;
   @Input() step1FormState!: Step1FormInterface | null;
@@ -36,6 +34,7 @@ export class Step1Component implements OnInit {
 
     this.step1Form.get('selectedModel')?.patchValue(this.selectedModel);
     this.step1Form.get('currentColor')?.patchValue(this.selectedModel?.colors?.[0].code);
+    this.step1Form.get('selectedColor')?.patchValue(this.selectedModel?.colors?.[0]);
 
     // set is Dirty to know in step 2 in we keep the current config or reset it
     if (this.step1FormState?.selectedModel?.code && (this.step1FormState?.selectedModel?.code !== selectedModelCode)) {
@@ -52,18 +51,22 @@ export class Step1Component implements OnInit {
     const color = this.selectedModel?.colors?.find((color: Color) => color.code === selectedColor);
 
     this.step1Form.get('currentColor')?.patchValue(color?.code);
+    this.step1Form.get('selectedColor')?.patchValue(color);
 
     this.saveNewImagePath();
   }
 
   setExistingSelectedModel(){
-    this.selectedModel = this.step1FormState?.selectedModel || undefined;
+    if (this.step1FormState?.selectedModel) {
+      this.selectedModel = this.step1FormState?.selectedModel
+    }
   }
 
   initForm() {
     this.step1Form = this.formBuilder.group({
       selectedModel: new FormControl<Tesla|null>(this.step1FormState?.selectedModel || null),
       currentModel: new FormControl<string>(this.step1FormState?.currentModel || ''),
+      selectedColor: new FormControl<Color|null>(this.step1FormState?.selectedColor || null),
       currentColor: new FormControl<string>(this.step1FormState?.currentColor || ''),
       imagePathGenerated: new FormControl<string>(this.step1FormState?.imagePathGenerated || ''),
       isDirty: new FormControl<boolean>(false),

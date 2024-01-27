@@ -27,6 +27,7 @@ export interface Config {
 export interface Step1FormInterface {
   selectedModel: Tesla;
   currentModel: ModelDescriptionAvailable;
+  selectedColor: Color;
   currentColor: ColorAvailable;
   imagePathGenerated: string;
   isDirty: boolean;

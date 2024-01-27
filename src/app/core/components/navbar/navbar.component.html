@@ -10,7 +10,7 @@
         </li>
 
         <li>
-            <a [routerLink]="isStep1Valid ? 'step-2': ''"
+            <a [routerLink]="isStep1Valid ? '/step-2': ''"
                [ngClass]="{'disabled': !isStep1Valid}"
                routerLinkActive="active"
                ariaCurrentWhenActive="step"
@@ -19,7 +19,8 @@
             </a>
         </li>
         <li>
-            <a routerLink="/step-3"
+            <a [routerLink]="isStep2Valid ? '/step-3': '/step-2'"
+               [ngClass]="{'disabled': !isStep2Valid}"
                routerLinkActive="active"
                ariaCurrentWhenActive="step"
                id="step3">

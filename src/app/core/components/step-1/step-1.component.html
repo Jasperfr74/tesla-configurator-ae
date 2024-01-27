@@ -14,7 +14,7 @@
             </select>
         </div>
 
-        @if (selectedModel) {
+        @if (selectedModel?.colors?.length) {
             <div class="tesla-colors" [formGroup]="step1Form">
                 <label for="colorSelect">Color:</label>
                 <select name="colors" id="colorSelect" formControlName="currentColor" (change)="onColorChange($event)">

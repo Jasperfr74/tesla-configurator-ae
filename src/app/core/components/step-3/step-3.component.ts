@@ -1,13 +1,38 @@
-import { Component, Input } from '@angular/core';
-import { Step2FormInterface } from '../../models/tesla';
+import { Component, Input, OnInit } from '@angular/core';
+import { Step1FormInterface, Step2FormInterface } from '../../models/tesla';
+import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
+import { ImageComponent } from '../../../shared/components/image/image.component';
 
 @Component({
   selector: 'app-step-3',
   standalone: true,
-  imports: [],
+  imports: [
+    ImageComponent,
+    CurrencyFormatPipe
+  ],
   templateUrl: './step-3.component.html',
   styleUrl: './step-3.component.scss'
 })
-export class Step3Component {
+export class Step3Component implements OnInit {
+  OPTION_UPSELL_PRICE = 1000;
+  totalPrice = 0;
+
+  @Input() step1FormState!: Step1FormInterface|null;
   @Input() step2FormState!: Step2FormInterface|null;
+
+  ngOnInit() {
+    this.totalPrice = this.calculateTotal();
+  }
+
+  calculateTotal() {
+    // config and color selected
+    const configPrice = this.step2FormState?.selectedConfig?.price || 0;
+    const colorPrice = this.step1FormState?.selectedColor?.price || 0;
+
+    // options selected
+    const yokePrice = this.step2FormState?.yoke ? this.OPTION_UPSELL_PRICE : 0;
+    const towHitchPrice = this.step2FormState?.towHitch ? this.OPTION_UPSELL_PRICE : 0;
+
+    return configPrice + colorPrice + yokePrice + towHitchPrice;
+  }
 }

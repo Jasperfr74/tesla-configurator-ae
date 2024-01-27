@@ -2,17 +2,16 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Config, ConfigInformation, Step1FormInterface, Step2FormInterface } from '../../models/tesla';
 import { tap } from 'rxjs';
-import { CurrencyPipe, JsonPipe } from '@angular/common';
-import { ImageComponent } from '../image/image.component';
+import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
+import { ImageComponent } from '../../../shared/components/image/image.component';
 
 @Component({
   selector: 'app-step-2',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    CurrencyPipe,
     ImageComponent,
-    JsonPipe
+    CurrencyFormatPipe
   ],
   templateUrl: './step-2.component.html',
   styleUrl: './step-2.component.scss'
