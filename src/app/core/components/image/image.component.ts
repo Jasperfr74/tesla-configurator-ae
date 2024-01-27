@@ -8,6 +8,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './image.component.scss'
 })
 export class ImageComponent {
-  @Input() path!: string;
+  @Input() path?: string;
   @Input() alt?: string;
 }

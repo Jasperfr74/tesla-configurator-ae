@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getCurrentStep } from '../../../store/selectors/app.selectors';
+import { getStep2Form } from '../../../store/selectors/app.selectors';
 import { AsyncPipe } from '@angular/common';
 import { Step3Component } from './step-3.component';
 import { Observable } from 'rxjs';
+import { Step2FormInterface } from '../../models/tesla';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { Observable } from 'rxjs';
   templateUrl: './step-3.container.html'
 })
 export class Step3Container {
-  currentStep$: Observable<number> = this.store.select(getCurrentStep);
+  step2FormState$: Observable<Step2FormInterface|null> = this.store.select(getStep2Form);
 
   constructor(
     private store: Store

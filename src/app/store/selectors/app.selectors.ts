@@ -5,19 +5,24 @@ export const app = 'app';
 
 export const appState = createFeatureSelector<AppState>(app);
 
-export const getCurrentStep = createSelector(
-  appState,
-  (state: AppState) => state.step
-);
-
 export const getTeslaModelInformation = createSelector(
   appState,
   (state: AppState) => state.teslaInformation
 );
 
+export const getConfigInformation = createSelector(
+  appState,
+  (state: AppState) => state.configInformation
+);
+
 export const getStep1Form = createSelector(
   appState,
   (state: AppState) => state.step1Form
+);
+
+export const getStep2Form = createSelector(
+  appState,
+  (state: AppState) => state.step2Form
 );
 
 export const isStep1Valid = createSelector(

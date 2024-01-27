@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  getCurrentStep, getStep1Form,
+  getStep1Form,
   getTeslaModelInformation,
 } from '../../../store/selectors/app.selectors';
 import { AsyncPipe } from '@angular/common';

@@ -19,6 +19,7 @@ import { ImageComponent } from '../image/image.component';
 export class Step1Component implements OnInit {
   step1Form!: FormGroup; // add type
   selectedModel: Tesla|undefined = undefined;
+  modelChanged = '';
 
   @Input() teslaModelInformation!: Tesla[] | null;
   @Input() step1FormState!: Step1FormInterface | null;
@@ -36,6 +37,11 @@ export class Step1Component implements OnInit {
     this.step1Form.get('selectedModel')?.patchValue(this.selectedModel);
     this.step1Form.get('currentColor')?.patchValue(this.selectedModel?.colors?.[0].code);
 
+    // set is Dirty to know in step 2 in we keep the current config or reset it
+    if (this.step1FormState?.selectedModel?.code && (this.step1FormState?.selectedModel?.code !== selectedModelCode)) {
+      this.step1Form.get('isDirty')?.setValue(true);
+    }
+
     this.saveNewImagePath();
   }
 
@@ -51,9 +57,7 @@ export class Step1Component implements OnInit {
   }
 
   setExistingSelectedModel(){
-    if (this.step1FormState?.selectedModel) {
-      this.selectedModel = this.step1FormState?.selectedModel;
-    }
+    this.selectedModel = this.step1FormState?.selectedModel || undefined;
   }
 
   initForm() {
@@ -62,12 +66,12 @@ export class Step1Component implements OnInit {
       currentModel: new FormControl<string>(this.step1FormState?.currentModel || ''),
       currentColor: new FormControl<string>(this.step1FormState?.currentColor || ''),
       imagePathGenerated: new FormControl<string>(this.step1FormState?.imagePathGenerated || ''),
+      isDirty: new FormControl<boolean>(false),
     })
   }
 
   listenToUpdateForm() {
     this.step1Form.valueChanges.pipe(
-      debounceTime(300),
       tap((value: Step1FormInterface) => {
         this.updateStep1Form.next(value);
       })
