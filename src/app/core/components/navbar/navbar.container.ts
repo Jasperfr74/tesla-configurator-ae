@@ -16,8 +16,8 @@ import { Observable } from 'rxjs';
   templateUrl: './navbar.container.html'
 })
 export class NavbarContainer {
-  isStep1Valid$: Observable<boolean|null> = this.store.select(isStep1Valid);
-  isStep2Valid$: Observable<boolean|null> = this.store.select(isStep2Valid);
+  isStep1Valid$: Observable<boolean | null> = this.store.select(isStep1Valid);
+  isStep2Valid$: Observable<boolean | null> = this.store.select(isStep2Valid);
 
   constructor(
     private store: Store

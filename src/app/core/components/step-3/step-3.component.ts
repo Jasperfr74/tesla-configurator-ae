@@ -14,24 +14,24 @@ import { ImageComponent } from '../../../shared/components/image/image.component
   styleUrl: './step-3.component.scss'
 })
 export class Step3Component implements OnInit {
-  OPTION_UPSELL_PRICE = 1000;
-  totalPrice = 0;
+  OPTION_UPSELL_PRICE: number = 1000;
+  totalPrice: number = 0;
 
-  @Input() step1FormState!: Step1FormInterface|null;
-  @Input() step2FormState!: Step2FormInterface|null;
+  @Input() step1FormState: Step1FormInterface | null = null;
+  @Input() step2FormState: Step2FormInterface | null = null;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.totalPrice = this.calculateTotal();
   }
 
-  calculateTotal() {
+  calculateTotal(): number {
     // config and color selected
-    const configPrice = this.step2FormState?.selectedConfig?.price || 0;
-    const colorPrice = this.step1FormState?.selectedColor?.price || 0;
+    const configPrice: number = this.step2FormState?.selectedConfig?.price || 0;
+    const colorPrice: number = this.step1FormState?.selectedColor?.price || 0;
 
     // options selected
-    const yokePrice = this.step2FormState?.yoke ? this.OPTION_UPSELL_PRICE : 0;
-    const towHitchPrice = this.step2FormState?.towHitch ? this.OPTION_UPSELL_PRICE : 0;
+    const yokePrice: number = this.step2FormState?.yoke ? this.OPTION_UPSELL_PRICE : 0;
+    const towHitchPrice: number = this.step2FormState?.towHitch ? this.OPTION_UPSELL_PRICE : 0;
 
     return configPrice + colorPrice + yokePrice + towHitchPrice;
   }

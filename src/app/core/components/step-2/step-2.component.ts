@@ -17,12 +17,12 @@ import { ImageComponent } from '../../../shared/components/image/image.component
   styleUrl: './step-2.component.scss'
 })
 export class Step2Component implements OnInit, OnChanges {
-  step2Form!: FormGroup;
-  selectedConfig: Config|undefined = undefined;
+  step2Form: FormGroup;
+  selectedConfig: Config | undefined = undefined;
 
-  @Input() configInformation!: ConfigInformation|null;
-  @Input() step1FormState!: Step1FormInterface|null;
-  @Input() step2FormState!: Step2FormInterface|null
+  @Input() configInformation: ConfigInformation | null = null;
+  @Input() step1FormState: Step1FormInterface | null = null;
+  @Input() step2FormState: Step2FormInterface | null = null;
 
   @Output() updateStep2Form: EventEmitter<Step2FormInterface> = new EventEmitter<Step2FormInterface>();
 
@@ -38,8 +38,8 @@ export class Step2Component implements OnInit, OnChanges {
   onModelChange(event: Event): void {
     if (!event) return;
 
-    const selectConfig = (event.target as HTMLInputElement).value;
-    this.selectedConfig = this.configInformation?.configs?.find((config: Config) => config.description === selectConfig);
+    const selectConfig: string = (event.target as HTMLInputElement).value;
+    this.selectedConfig = this.configInformation?.configs?.find((config: Config): boolean => config.description === selectConfig);
     this.step2Form.get('selectedConfig')?.patchValue(this.selectedConfig);
   }
 

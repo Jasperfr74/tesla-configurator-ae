@@ -17,10 +17,10 @@ import { ImageComponent } from '../../../shared/components/image/image.component
 })
 export class Step1Component implements OnInit {
   step1Form!: FormGroup; // add type
-  selectedModel: Tesla|undefined = undefined;
+  selectedModel: Tesla | undefined = undefined;
 
-  @Input() teslaModelInformation!: Tesla[] | null;
-  @Input() step1FormState!: Step1FormInterface | null;
+  @Input() teslaModelInformation: Tesla[] | null = null;
+  @Input() step1FormState: Step1FormInterface | null = null;
 
   @Output() updateStep1Form: EventEmitter<Step1FormInterface> = new EventEmitter<Step1FormInterface>();
 
@@ -29,8 +29,8 @@ export class Step1Component implements OnInit {
   onModelChange(event: Event): void {
     if (!event) return;
 
-    const selectedModelCode = (event.target as HTMLInputElement).value;
-    this.selectedModel = this.teslaModelInformation?.find(model => model.description === selectedModelCode);
+    const selectedModelCode: string = (event.target as HTMLInputElement).value;
+    this.selectedModel = this.teslaModelInformation?.find((model: Tesla): boolean => model.description === selectedModelCode);
 
     this.step1Form.get('selectedModel')?.patchValue(this.selectedModel);
     this.step1Form.get('currentColor')?.patchValue(this.selectedModel?.colors?.[0].code);
@@ -47,8 +47,8 @@ export class Step1Component implements OnInit {
   onColorChange(event: Event): void {
     if (!event) return;
 
-    const selectedColor = (event.target as HTMLInputElement).value;
-    const color = this.selectedModel?.colors?.find((color: Color) => color.code === selectedColor);
+    const selectedColor: string = (event.target as HTMLInputElement).value;
+    const color: Color | undefined = this.selectedModel?.colors?.find((color: Color): boolean => color.code === selectedColor);
 
     this.step1Form.get('currentColor')?.patchValue(color?.code);
     this.step1Form.get('selectedColor')?.patchValue(color);
@@ -62,7 +62,7 @@ export class Step1Component implements OnInit {
     }
   }
 
-  initForm() {
+  initForm(): void {
     this.step1Form = this.formBuilder.group({
       selectedModel: new FormControl<Tesla|null>(this.step1FormState?.selectedModel || null),
       currentModel: new FormControl<string>(this.step1FormState?.currentModel || ''),
@@ -73,7 +73,7 @@ export class Step1Component implements OnInit {
     })
   }
 
-  listenToUpdateForm() {
+  listenToUpdateForm(): void {
     this.step1Form.valueChanges.pipe(
       tap((value: Step1FormInterface) => {
         this.updateStep1Form.next(value);
@@ -81,7 +81,7 @@ export class Step1Component implements OnInit {
     ).subscribe()
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.initForm();
     this.listenToUpdateForm();
     this.setExistingSelectedModel();
@@ -90,7 +90,7 @@ export class Step1Component implements OnInit {
 
   private saveNewImagePath(): void {
     const code: ModelCodeAvailable = (this.step1Form.get('selectedModel')?.value as Tesla).code;
-    const currentColor = this.step1Form.get('currentColor')?.value;
+    const currentColor: string = this.step1Form.get('currentColor')?.value as string;
 
     if (code && currentColor) {
       this.step1Form.get('imagePathGenerated')?.patchValue(this.buildImagePath(code, currentColor));

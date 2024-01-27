@@ -14,6 +14,6 @@ import { NgClass } from '@angular/common';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-  @Input() isStep1Valid!: boolean | null;
-  @Input() isStep2Valid!: boolean | null;
+  @Input() isStep1Valid: boolean | null = null;
+  @Input() isStep2Valid: boolean | null = null;
 }

@@ -21,8 +21,8 @@ import { Observable } from 'rxjs';
   templateUrl: './step-1.container.html'
 })
 export class Step1Container {
-  teslaModelInformation$: Observable<Tesla[]|null> = this.store.select(getTeslaModelInformation);
-  step1FormState$: Observable<Step1FormInterface|null> = this.store.select(getStep1Form);
+  teslaModelInformation$: Observable<Tesla[] | null> = this.store.select(getTeslaModelInformation);
+  step1FormState$: Observable<Step1FormInterface | null> = this.store.select(getStep1Form);
 
   constructor(
     private store: Store

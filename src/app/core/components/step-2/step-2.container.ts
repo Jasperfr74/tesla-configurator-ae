@@ -18,9 +18,9 @@ import { updateStep2Form } from '../../../store/actions/app.action';
   templateUrl: './step-2.container.html'
 })
 export class Step2Container {
-  configInformation$: Observable<ConfigInformation|null> = this.store.select(getConfigInformation);
-  step1FormState$: Observable<Step1FormInterface|null> = this.store.select(getStep1Form);
-  step2FormState$: Observable<Step2FormInterface|null> = this.store.select(getStep2Form);
+  configInformation$: Observable<ConfigInformation | null> = this.store.select(getConfigInformation);
+  step1FormState$: Observable<Step1FormInterface | null> = this.store.select(getStep1Form);
+  step2FormState$: Observable<Step2FormInterface | null> = this.store.select(getStep2Form);
 
   constructor(
     private store: Store
