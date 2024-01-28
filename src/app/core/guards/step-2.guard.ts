@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Router, UrlTree } from '@angular/router';
 import { isStep1Valid } from '../store/selectors/app.selectors';
 

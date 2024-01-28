@@ -2,7 +2,7 @@ import { CurrencyFormatPipe } from './currency-format.pipe';
 
 describe('CurrencyFormatPipe', () => {
   it('create an instance', () => {
-    const pipe = new CurrencyFormatPipe();
+    const pipe = new CurrencyFormatPipe('en-US');
     expect(pipe).toBeTruthy();
   });
 });
