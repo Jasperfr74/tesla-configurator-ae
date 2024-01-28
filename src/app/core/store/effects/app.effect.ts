@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, filter, mergeMap, switchMap, take, withLatestFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TeslaService } from '../../shared/services/tesla.service';
 import {
    ROUTER_NAVIGATION,
   RouterNavigationAction,
 } from '@ngrx/router-store';
 import * as AppActions from '../actions/app.action';
-import { Config, ConfigInformation, Step1FormInterface, Step2FormInterface, ModelInformation } from '../../core/models/tesla';
+import { Config, ConfigInformation, Step1FormInterface, Step2FormInterface, ModelInformation } from '../../models/tesla';
 import { getStep1Form, getStep2Form } from '../selectors/app.selectors';
 import { Store } from '@ngrx/store';
+import { TeslaService } from '../../../shared/services/apis/tesla.service';
 
 @Injectable()
 export class AppEffect {

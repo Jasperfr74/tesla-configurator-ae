@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ImageComponent } from '../shared/components/image/image.component';
-import { CurrencyFormatPipe } from '../shared/pipes/currency-format.pipe';
-import { Step1FormInterface, Step2FormInterface } from '../core/models/tesla';
+import { Step1FormInterface, Step2FormInterface } from '../../../core/models/tesla';
+import { ImageComponent } from '../../../shared/components/image/image.component';
+import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
 
 @Component({
   selector: 'app-step-3',

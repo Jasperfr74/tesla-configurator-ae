@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ConfigInformation, Step1FormInterface, Step2FormInterface, ModelInformation } from '../../core/models/tesla';
+import { ConfigInformation, ModelInformation, Step1FormInterface, Step2FormInterface } from '../../models/tesla';
 
 export const loadModelInformation = createAction(
   '[TESLA] load model information',

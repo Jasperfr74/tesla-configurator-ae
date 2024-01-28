@@ -3,9 +3,9 @@ import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import { Step1Component } from './step-1.component';
 import { Observable } from 'rxjs';
-import { ModelInformation, Step1FormInterface } from '../core/models/tesla';
-import { getStep1Form, getTeslaModelInformation } from '../store/selectors/app.selectors';
-import { updateStep1Form } from '../store/actions/app.action';
+import { getStep1Form, getTeslaModelInformation } from '../../../core/store/selectors/app.selectors';
+import { ModelInformation, Step1FormInterface } from '../../../core/models/tesla';
+import { updateStep1Form } from '../../../core/store/actions/app.action';
 
 
 @Component({

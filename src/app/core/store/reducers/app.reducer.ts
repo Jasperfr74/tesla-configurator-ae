@@ -5,7 +5,7 @@ import {
   ModelInformation,
   Step1FormInterface,
   Step2FormInterface,
-} from '../../core/models/tesla';
+} from '../../models/tesla';
 
 export interface AppState {
   teslaInformation: ModelInformation[];

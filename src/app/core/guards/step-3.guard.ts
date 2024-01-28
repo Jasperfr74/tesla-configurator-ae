@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { isStep2Valid } from '../../store/selectors/app.selectors';
 import { map, Observable } from 'rxjs';
 import { Router, UrlTree } from '@angular/router';
+import { isStep2Valid } from '../store/selectors/app.selectors';
 
 export function step3Guard(): () => Observable<boolean | UrlTree> {
   return () => {

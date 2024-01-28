@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { tap } from 'rxjs';
-import { ImageComponent } from '../shared/components/image/image.component';
-import { Color, ModelCodeAvailable, Step1FormInterface, ModelInformation } from '../core/models/tesla';
-import { FindModelService } from '../shared/services/find-model.service';
+import { ImageComponent } from '../../../shared/components/image/image.component';
+import { Color, ModelCodeAvailable, ModelInformation, Step1FormInterface } from '../../../core/models/tesla';
+import { FindModelService } from '../../../shared/services/utilities/find-model.service';
 
 export interface Step1Form {
   selectedModel: FormControl<ModelInformation | null>,
@@ -32,7 +32,6 @@ export class Step1Component implements OnInit {
   @Output() updateStep1Form: EventEmitter<Step1FormInterface> = new EventEmitter<Step1FormInterface>();
 
   selectedModel: ModelInformation | null = null;
-  imgPath: string | null = null;
 
   step1Form: FormGroup = this.formBuilder.group<Step1Form>({
     selectedModel: new FormControl<ModelInformation | null>( null),
@@ -111,9 +110,9 @@ export class Step1Component implements OnInit {
     return `assets/images/${modelCode}/${currentColor}.jpg`;
   }
 
-  private setStep1Dirty(selectedModelCode: string) {
+  private setStep1Dirty(selectedModelCode: string): void {
     // Set isDirty to know in step 2 if we keep the current config or reset it
-    const isModelChanged = this.step1FormState?.selectedModel?.code !== selectedModelCode;
+    const isModelChanged: boolean = this.step1FormState?.selectedModel?.code !== selectedModelCode;
     this.step1Form.get('isDirty')?.setValue(isModelChanged);
   }
 
@@ -129,7 +128,7 @@ export class Step1Component implements OnInit {
 
   private setExistingSelectedModel(){
     if (this.step1FormState?.selectedModel) {
-      this.selectedModel = this.step1FormState?.selectedModel
+      this.selectedModel = this.step1FormState?.selectedModel;
     }
   }
 }

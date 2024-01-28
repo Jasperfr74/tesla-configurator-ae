@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import { NavbarComponent } from './navbar.component';
 import { Observable } from 'rxjs';
-import { isStep1Valid, isStep2Valid } from '../store/selectors/app.selectors';
+import { isStep1Valid, isStep2Valid } from '../../../store/selectors/app.selectors';
 
 
 @Component({

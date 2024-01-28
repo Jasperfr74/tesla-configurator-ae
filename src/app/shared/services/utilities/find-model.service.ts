@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Color, Config, ModelInformation } from '../../core/models/tesla';
+import { Color, Config, ModelInformation } from '../../../core/models/tesla';
 
 @Injectable({
   providedIn: 'root'

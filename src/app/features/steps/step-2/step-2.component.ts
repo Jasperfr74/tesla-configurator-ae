@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { tap } from 'rxjs';
-import { ImageComponent } from '../shared/components/image/image.component';
-import { CurrencyFormatPipe } from '../shared/pipes/currency-format.pipe';
-import { Config, ConfigInformation, Step1FormInterface, Step2FormInterface } from '../core/models/tesla';
-import { FindModelService } from '../shared/services/find-model.service';
+import { Config, ConfigInformation, Step1FormInterface, Step2FormInterface } from '../../../core/models/tesla';
+import { ImageComponent } from '../../../shared/components/image/image.component';
+import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
+import { FindModelService } from '../../../shared/services/utilities/find-model.service';
 
 export interface Step2Form {
   selectedConfig: FormControl<Config | null>,
@@ -66,7 +66,7 @@ export class Step2Component implements OnInit, OnChanges {
         currentConfig: this.step2FormState?.currentConfig,
         towHitch: this.step2FormState?.towHitch,
         yoke: this.step2FormState?.yoke,
-      }, { emitEvent: false }) // emitEvent to false because we do not want to trigger valueChanges and update the current store
+      }, { emitEvent: false }); // emitEvent to false because we do not want to trigger valueChanges and update the current store
 
       this.selectedConfig = this.step2Form.get('selectedConfig')?.value || null;
     }
