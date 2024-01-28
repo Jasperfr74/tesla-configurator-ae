@@ -1,13 +1,13 @@
 import { createAction, props } from '@ngrx/store';
-import { ConfigInformation, Step1FormInterface, Step2FormInterface, Tesla } from '../../core/models/tesla';
+import { ConfigInformation, Step1FormInterface, Step2FormInterface, ModelInformation } from '../../core/models/tesla';
 
 export const loadModelInformation = createAction(
   '[TESLA] load model information',
-  props<{ payload: Tesla[] }>()
+  props<{ payload: ModelInformation[] }>()
 );
 
 export const loadConfigs = createAction(
-  '[TESLA] load config options',
+  '[TESLA] load config information',
   props<{ payload: ConfigInformation }>()
 );
 

@@ -8,7 +8,7 @@ import {
   RouterNavigationAction,
 } from '@ngrx/router-store';
 import * as AppActions from '../actions/app.action';
-import { Config, ConfigInformation, Step1FormInterface, Step2FormInterface, Tesla } from '../../core/models/tesla';
+import { Config, ConfigInformation, Step1FormInterface, Step2FormInterface, ModelInformation } from '../../core/models/tesla';
 import { getStep1Form, getStep2Form } from '../selectors/app.selectors';
 import { Store } from '@ngrx/store';
 
@@ -24,7 +24,7 @@ export class AppEffect {
       mergeMap(() =>
         this.teslaService.getModels()
           .pipe(
-            map((payload: Tesla[]) =>
+            map((payload: ModelInformation[]) =>
               AppActions.loadModelInformation({ payload })
             ),
         )

@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  getStep1Form,
-  getTeslaModelInformation,
-} from '../../../store/selectors/app.selectors';
 import { AsyncPipe } from '@angular/common';
 import { Step1Component } from './step-1.component';
-import { updateStep1Form } from '../../../store/actions/app.action';
-import { Step1FormInterface, Tesla } from '../../models/tesla';
 import { Observable } from 'rxjs';
+import { ModelInformation, Step1FormInterface } from '../core/models/tesla';
+import { getStep1Form, getTeslaModelInformation } from '../store/selectors/app.selectors';
+import { updateStep1Form } from '../store/actions/app.action';
 
 
 @Component({
@@ -21,7 +18,7 @@ import { Observable } from 'rxjs';
   templateUrl: './step-1.container.html'
 })
 export class Step1Container {
-  teslaModelInformation$: Observable<Tesla[] | null> = this.store.select(getTeslaModelInformation);
+  teslaModelInformation$: Observable<ModelInformation[] | null> = this.store.select(getTeslaModelInformation);
   step1FormState$: Observable<Step1FormInterface | null> = this.store.select(getStep1Form);
 
   constructor(

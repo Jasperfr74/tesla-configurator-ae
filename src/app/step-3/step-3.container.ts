@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getStep1Form, getStep2Form } from '../../../store/selectors/app.selectors';
 import { AsyncPipe } from '@angular/common';
 import { Step3Component } from './step-3.component';
 import { Observable } from 'rxjs';
-import { Step1FormInterface, Step2FormInterface } from '../../models/tesla';
+import { Step1FormInterface, Step2FormInterface } from '../core/models/tesla';
+import { getStep1Form, getStep2Form } from '../store/selectors/app.selectors';
 
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Step1FormInterface, Step2FormInterface } from '../../models/tesla';
-import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
-import { ImageComponent } from '../../../shared/components/image/image.component';
+import { ImageComponent } from '../shared/components/image/image.component';
+import { CurrencyFormatPipe } from '../shared/pipes/currency-format.pipe';
+import { Step1FormInterface, Step2FormInterface } from '../core/models/tesla';
 
 @Component({
   selector: 'app-step-3',
@@ -14,17 +14,19 @@ import { ImageComponent } from '../../../shared/components/image/image.component
   styleUrl: './step-3.component.scss'
 })
 export class Step3Component implements OnInit {
-  OPTION_UPSELL_PRICE: number = 1000;
-  totalPrice: number = 0;
+  // https://angular.dev/style-guide#folders-by-feature-structure
 
   @Input() step1FormState: Step1FormInterface | null = null;
   @Input() step2FormState: Step2FormInterface | null = null;
+
+  readonly OPTION_UPSELL_PRICE: number = 1000;
+  totalPrice: number = 0;
 
   ngOnInit(): void {
     this.totalPrice = this.calculateTotal();
   }
 
-  calculateTotal(): number {
+  private calculateTotal(): number {
     // config and color selected
     const configPrice: number = this.step2FormState?.selectedConfig?.price || 0;
     const colorPrice: number = this.step1FormState?.selectedColor?.price || 0;

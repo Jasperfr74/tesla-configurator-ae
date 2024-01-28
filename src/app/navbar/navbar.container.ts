@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { isStep1Valid, isStep2Valid } from '../../../store/selectors/app.selectors';
 import { AsyncPipe } from '@angular/common';
 import { NavbarComponent } from './navbar.component';
 import { Observable } from 'rxjs';
+import { isStep1Valid, isStep2Valid } from '../store/selectors/app.selectors';
 
 
 @Component({

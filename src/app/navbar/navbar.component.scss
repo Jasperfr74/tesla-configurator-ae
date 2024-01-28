@@ -1,4 +1,4 @@
-@import "../../../styles/scss/variables";
+@import "../styles/scss/variables";
 
 nav {
   border: 2px solid $border-color;
@@ -32,7 +32,7 @@ nav {
         align-items: center;
 
         &.disabled {
-          cursor: url('../../../../assets/icons/not-allowed.png'), not-allowed;
+          cursor: url('../../assets/icons/not-allowed.png'), not-allowed;
         }
       }
     }

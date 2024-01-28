@@ -1,9 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AppActions from '../actions/app.action';
-import { ConfigInformation, Step1FormInterface, Step2FormInterface, Tesla } from '../../core/models/tesla';
+import {
+  ConfigInformation,
+  ModelInformation,
+  Step1FormInterface,
+  Step2FormInterface,
+} from '../../core/models/tesla';
 
 export interface AppState {
-  teslaInformation: Tesla[];
+  teslaInformation: ModelInformation[];
   configInformation: ConfigInformation;
   step1Form: Step1FormInterface;
   step2Form: Step2FormInterface;

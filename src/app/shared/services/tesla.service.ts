@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { ConfigInformation, ModelCodeAvailable, Tesla } from '../../core/models/tesla';
+import { ConfigInformation, ModelCodeAvailable, ModelInformation } from '../../core/models/tesla';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +9,8 @@ import { ConfigInformation, ModelCodeAvailable, Tesla } from '../../core/models/
 export class TeslaService {
   constructor(private httpClient: HttpClient) { }
 
-  getModels(): Observable<Tesla[]> {
-    return this.httpHandler<Tesla[]>(`/models`);
+  getModels(): Observable<ModelInformation[]> {
+    return this.httpHandler<ModelInformation[]>(`/models`);
   }
 
   getOptionByModel(model: ModelCodeAvailable): Observable<ConfigInformation> {

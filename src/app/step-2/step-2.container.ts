@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getConfigInformation, getStep1Form, getStep2Form } from '../../../store/selectors/app.selectors';
 import { AsyncPipe } from '@angular/common';
 import { Step2Component } from './step-2.component';
 import { Observable } from 'rxjs';
-import { ConfigInformation, Step1FormInterface, Step2FormInterface } from '../../models/tesla';
-import { updateStep2Form } from '../../../store/actions/app.action';
+import { ConfigInformation, Step1FormInterface, Step2FormInterface } from '../core/models/tesla';
+import { updateStep2Form } from '../store/actions/app.action';
+import { getConfigInformation, getStep1Form, getStep2Form } from '../store/selectors/app.selectors';
 
 
 @Component({

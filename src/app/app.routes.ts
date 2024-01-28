@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { Step1Container } from './core/components/step-1/step-1.container';
-import { Step2Container } from './core/components/step-2/step-2.container';
-import { Step3Container } from './core/components/step-3/step-3.container';
 import { step2Guard } from './core/guards/step-2.guard';
 import { step3Guard } from './core/guards/step-3.guard';
+import { Step1Container } from './step-1/step-1.container';
+import { Step2Container } from './step-2/step-2.container';
+import { Step3Container } from './step-3/step-3.container';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'step-1', pathMatch: 'full' },

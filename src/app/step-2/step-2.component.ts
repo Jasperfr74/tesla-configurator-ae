@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Config, ConfigInformation, Step1FormInterface, Step2FormInterface } from '../../models/tesla';
 import { tap } from 'rxjs';
-import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format.pipe';
-import { ImageComponent } from '../../../shared/components/image/image.component';
+import { ImageComponent } from '../shared/components/image/image.component';
+import { CurrencyFormatPipe } from '../shared/pipes/currency-format.pipe';
+import { Config, ConfigInformation, Step1FormInterface, Step2FormInterface } from '../core/models/tesla';
 
 @Component({
   selector: 'app-step-2',
@@ -17,14 +17,15 @@ import { ImageComponent } from '../../../shared/components/image/image.component
   styleUrl: './step-2.component.scss'
 })
 export class Step2Component implements OnInit, OnChanges {
-  step2Form: FormGroup;
-  selectedConfig: Config | undefined = undefined;
+  // https://angular.dev/style-guide#folders-by-feature-structure
 
   @Input() configInformation: ConfigInformation | null = null;
   @Input() step1FormState: Step1FormInterface | null = null;
   @Input() step2FormState: Step2FormInterface | null = null;
-
   @Output() updateStep2Form: EventEmitter<Step2FormInterface> = new EventEmitter<Step2FormInterface>();
+
+  selectedConfig: Config | undefined = undefined;
+  step2Form: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
     this.step2Form = this.formBuilder.group({

@@ -1,4 +1,4 @@
-export interface Tesla {
+export interface ModelInformation {
   code: ModelCodeAvailable;
   description: ModelDescriptionAvailable;
   colors: Color[];
@@ -25,7 +25,7 @@ export interface Config {
 }
 
 export interface Step1FormInterface {
-  selectedModel: Tesla;
+  selectedModel: ModelInformation;
   currentModel: ModelDescriptionAvailable;
   selectedColor: Color;
   currentColor: ColorAvailable;
