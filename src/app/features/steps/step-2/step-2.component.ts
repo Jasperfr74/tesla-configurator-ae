@@ -50,6 +50,7 @@ export class Step2Component implements OnInit, OnChanges {
     const config: Config | undefined = this.findModel.findCurrentElement<Config>(selectConfig, this.configInformation?.configs);
 
     if (!config) {
+      this.resetConfig();
       return;
     }
 
@@ -78,5 +79,10 @@ export class Step2Component implements OnInit, OnChanges {
         this.updateStep2Form.next(value);
       })
     ).subscribe();
+  }
+
+  private resetConfig(): void {
+    this.step2Form.get('selectedConfig')?.patchValue('');
+    this.selectedConfig = null;
   }
 }

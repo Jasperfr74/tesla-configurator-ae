@@ -27,7 +27,7 @@ export const getStep2Form = createSelector(
 
 export const isStep1Valid = createSelector(
   appState,
-  (state: AppState) => !(!state.step1Form?.currentModel && !state.step1Form?.currentColor) || false
+  (state: AppState) => !(!state.step1Form?.currentModel || !state.step1Form?.currentColor) || false
 );
 
 export const isStep2Valid = createSelector(

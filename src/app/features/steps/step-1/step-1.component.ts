@@ -51,12 +51,13 @@ export class Step1Component implements OnInit {
     const color: Color | undefined = this.findModel.findCurrentColor<Color>(selectedColor, this.selectedModel?.colors);
 
     if (!color) {
+      this.resetColor();
       return;
     }
 
     this.step1Form.patchValue({
       selectedColor: color,
-      currentColor: color.code
+      currentColor: color?.code
     })
 
     this.saveNewImagePath();
@@ -71,6 +72,7 @@ export class Step1Component implements OnInit {
     const selectedModel: ModelInformation | undefined = this.findModel.findCurrentElement<ModelInformation>(selectedModelCode, this.teslaModelInformation);
 
     if (!selectedModel) {
+      this.resetModel();
       return;
     }
 
@@ -124,6 +126,24 @@ export class Step1Component implements OnInit {
       const builtImgPath: string = this.buildImagePath(code, currentColor);
       this.step1Form.get('imagePathGenerated')?.patchValue(builtImgPath);
     }
+  }
+
+  private resetColor(): void {
+    this.step1Form.patchValue({
+      selectedColor: null,
+      currentColor: '',
+      imagePathGenerated: '',
+    })
+  }
+
+  private resetModel(): void {
+    this.selectedModel = null;
+    this.step1Form.patchValue({
+      selectedModel: null,
+      selectedColor: null,
+      currentColor: '',
+      imagePathGenerated: '',
+    })
   }
 
   private setExistingSelectedModel(){
