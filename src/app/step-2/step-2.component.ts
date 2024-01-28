@@ -4,6 +4,14 @@ import { tap } from 'rxjs';
 import { ImageComponent } from '../shared/components/image/image.component';
 import { CurrencyFormatPipe } from '../shared/pipes/currency-format.pipe';
 import { Config, ConfigInformation, Step1FormInterface, Step2FormInterface } from '../core/models/tesla';
+import { FindModelService } from '../shared/services/find-model.service';
+
+export interface Step2Form {
+  selectedConfig: FormControl<Config | null>,
+  currentConfig: FormControl<string>,
+  towHitch: FormControl<boolean>,
+  yoke: FormControl<boolean>,
+}
 
 @Component({
   selector: 'app-step-2',
@@ -24,34 +32,43 @@ export class Step2Component implements OnInit, OnChanges {
   @Input() step2FormState: Step2FormInterface | null = null;
   @Output() updateStep2Form: EventEmitter<Step2FormInterface> = new EventEmitter<Step2FormInterface>();
 
-  selectedConfig: Config | undefined = undefined;
-  step2Form: FormGroup;
+  selectedConfig: Config | null = null;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.step2Form = this.formBuilder.group({
-      selectedConfig: new FormControl<Config|null>( null),
-      currentConfig: new FormControl<string>(''),
-      towHitch: new FormControl<boolean>(false),
-      yoke: new FormControl<boolean>(false),
-    });
-  }
+  step2Form: FormGroup = this.formBuilder.group<Step2Form>({
+    selectedConfig: new FormControl<Config | null>( null),
+    currentConfig: new FormControl<string>('', { nonNullable: true }),
+    towHitch: new FormControl<boolean>(false, { nonNullable: true }),
+    yoke: new FormControl<boolean>(false, { nonNullable: true }),
+  });
+
+  constructor(private formBuilder: FormBuilder, private findModel: FindModelService) {}
 
   onModelChange(event: Event): void {
     if (!event) return;
 
     const selectConfig: string = (event.target as HTMLInputElement).value;
-    this.selectedConfig = this.configInformation?.configs?.find((config: Config): boolean => config.description === selectConfig);
+    const config: Config | undefined = this.findModel.findCurrentElement<Config>(selectConfig, this.configInformation?.configs);
+
+    if (!config) {
+      return;
+    }
+
+    // I set a variable to do not use a getter which is going to trigger a lot of calls
+    this.selectedConfig = config;
     this.step2Form.get('selectedConfig')?.patchValue(this.selectedConfig);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.['configInformation']?.currentValue !== changes?.['configInformation']?.previousValue) {
+      // fill the form with existing values
       this.step2Form.patchValue({
         selectedConfig: this.step2FormState?.selectedConfig,
         currentConfig: this.step2FormState?.currentConfig,
         towHitch: this.step2FormState?.towHitch,
         yoke: this.step2FormState?.yoke,
       }, { emitEvent: false }) // emitEvent to false because we do not want to trigger valueChanges and update the current store
+
+      this.selectedConfig = this.step2Form.get('selectedConfig')?.value || null;
     }
   }
 
@@ -60,6 +77,6 @@ export class Step2Component implements OnInit, OnChanges {
       tap((value: Step2FormInterface) => {
         this.updateStep2Form.next(value);
       })
-    ).subscribe()
+    ).subscribe();
   }
 }

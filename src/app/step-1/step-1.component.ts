@@ -3,7 +3,16 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angul
 import { tap } from 'rxjs';
 import { ImageComponent } from '../shared/components/image/image.component';
 import { Color, ModelCodeAvailable, Step1FormInterface, ModelInformation } from '../core/models/tesla';
+import { FindModelService } from '../shared/services/find-model.service';
 
+export interface Step1Form {
+  selectedModel: FormControl<ModelInformation | null>,
+  currentModel: FormControl<string>,
+  selectedColor: FormControl<Color | null>,
+  currentColor: FormControl<string>,
+  imagePathGenerated: FormControl<string>,
+  isDirty: FormControl<boolean>,
+}
 
 @Component({
   selector: 'app-step-1',
@@ -23,23 +32,24 @@ export class Step1Component implements OnInit {
   @Output() updateStep1Form: EventEmitter<Step1FormInterface> = new EventEmitter<Step1FormInterface>();
 
   selectedModel: ModelInformation | null = null;
+  imgPath: string | null = null;
 
-  step1Form: FormGroup = this.formBuilder.group({
-    selectedModel: new FormControl<ModelInformation|null>( null),
+  step1Form: FormGroup = this.formBuilder.group<Step1Form>({
+    selectedModel: new FormControl<ModelInformation | null>( null),
     currentModel: new FormControl<string>('', { nonNullable: true }),
-    selectedColor: new FormControl<Color|null>( null),
+    selectedColor: new FormControl<Color | null>( null),
     currentColor: new FormControl<string>('', { nonNullable: true }),
     imagePathGenerated: new FormControl<string>('', { nonNullable: true }),
     isDirty: new FormControl<boolean>(false, { nonNullable: true }),
-})
+  })
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private findModel: FindModelService) {}
 
   onColorChange(event: Event): void {
     if (!event) return;
 
     const selectedColor: string = (event.target as HTMLInputElement).value;
-    const color: Color | undefined = this.selectedModel?.colors?.find((color: Color): boolean => color.code === selectedColor);
+    const color: Color | undefined = this.findModel.findCurrentColor<Color>(selectedColor, this.selectedModel?.colors);
 
     if (!color) {
       return;
@@ -59,14 +69,14 @@ export class Step1Component implements OnInit {
     }
 
     const selectedModelCode: string = (event.target as HTMLInputElement).value;
-    const selectedModel: ModelInformation | undefined = this.teslaModelInformation?.find((model: ModelInformation) => model.description === selectedModelCode);
+    const selectedModel: ModelInformation | undefined = this.findModel.findCurrentElement<ModelInformation>(selectedModelCode, this.teslaModelInformation);
 
     if (!selectedModel) {
       return;
     }
 
+    // I set a variable to do not use a getter which is going to trigger a lot of calls
     this.selectedModel = selectedModel;
-
     const firstColor: Color = selectedModel.colors[0];
 
     this.step1Form.patchValue({
@@ -108,11 +118,12 @@ export class Step1Component implements OnInit {
   }
 
   private saveNewImagePath(): void {
-    const code: ModelCodeAvailable = (this.step1Form.get('selectedModel')?.value as ModelInformation).code;
-    const currentColor: string = this.step1Form.get('currentColor')?.value as string;
+    const code: ModelCodeAvailable = this.step1Form.get('selectedModel')?.value.code;
+    const currentColor: string = this.step1Form.get('currentColor')?.value;
 
     if (code && currentColor) {
-      this.step1Form.get('imagePathGenerated')?.patchValue(this.buildImagePath(code, currentColor));
+      const builtImgPath: string = this.buildImagePath(code, currentColor);
+      this.step1Form.get('imagePathGenerated')?.patchValue(builtImgPath);
     }
   }
 

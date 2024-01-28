@@ -14,9 +14,9 @@
     </div>
 
 
-    @if (step2Form.get('selectedConfig')?.value?.range) {
+    @if (selectedConfig?.range) {
         <div class="details">
-            <span>Range: {{ step2Form.get('selectedConfig')?.value?.range }} miles - Max speed: {{ step2Form.get('selectedConfig')?.value?.speed }} - Cost {{ step2Form.get('selectedConfig')?.value?.price | currencyFormat }}</span>
+            <span>Range: {{ selectedConfig?.range }} miles - Max speed: {{ selectedConfig?.speed }} - Cost {{ selectedConfig?.price | currencyFormat }}</span>
         </div>
     }
 
