@@ -22,8 +22,16 @@ export class Step1Component implements OnInit {
   @Input() step1FormState: Step1FormInterface | null = null;
   @Output() updateStep1Form: EventEmitter<Step1FormInterface> = new EventEmitter<Step1FormInterface>();
 
-  selectedModel: ModelInformation | undefined = undefined;
-  step1Form!: FormGroup;
+  selectedModel: ModelInformation | null = null;
+
+  step1Form: FormGroup = this.formBuilder.group({
+    selectedModel: new FormControl<ModelInformation|null>( null),
+    currentModel: new FormControl<string>('', { nonNullable: true }),
+    selectedColor: new FormControl<Color|null>( null),
+    currentColor: new FormControl<string>('', { nonNullable: true }),
+    imagePathGenerated: new FormControl<string>('', { nonNullable: true }),
+    isDirty: new FormControl<boolean>(false, { nonNullable: true }),
+})
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -33,38 +41,51 @@ export class Step1Component implements OnInit {
     const selectedColor: string = (event.target as HTMLInputElement).value;
     const color: Color | undefined = this.selectedModel?.colors?.find((color: Color): boolean => color.code === selectedColor);
 
-    this.step1Form.get('currentColor')?.patchValue(color?.code);
-    this.step1Form.get('selectedColor')?.patchValue(color);
+    if (!color) {
+      return;
+    }
+
+    this.step1Form.patchValue({
+      selectedColor: color,
+      currentColor: color.code
+    })
 
     this.saveNewImagePath();
   }
 
   onModelChange(event: Event): void {
-    if (!event) return;
-
-    const selectedModelCode: string = (event.target as HTMLInputElement).value;
-    this.selectedModel = this.teslaModelInformation?.find((model: ModelInformation): boolean => model.description === selectedModelCode);
-
-    this.step1Form.get('selectedModel')?.patchValue(this.selectedModel);
-    this.step1Form.get('currentColor')?.patchValue(this.selectedModel?.colors?.[0].code);
-    this.step1Form.get('selectedColor')?.patchValue(this.selectedModel?.colors?.[0]);
-
-    // set is Dirty to know in step 2 in we keep the current config or reset it
-    if (this.step1FormState?.selectedModel?.code && (this.step1FormState?.selectedModel?.code !== selectedModelCode)) {
-      this.step1Form.get('isDirty')?.setValue(true);
+    if (!event) {
+      return;
     }
 
+    const selectedModelCode: string = (event.target as HTMLInputElement).value;
+    const selectedModel: ModelInformation | undefined = this.teslaModelInformation?.find((model: ModelInformation) => model.description === selectedModelCode);
+
+    if (!selectedModel) {
+      return;
+    }
+
+    this.selectedModel = selectedModel;
+
+    const firstColor: Color = selectedModel.colors[0];
+
+    this.step1Form.patchValue({
+      selectedModel,
+      selectedColor: firstColor,
+      currentColor: firstColor.code
+    })
+
+    this.setStep1Dirty(selectedModelCode);
     this.saveNewImagePath();
   }
 
   ngOnInit(): void {
-    this.step1Form = this.formBuilder.group({
-      selectedModel: new FormControl<ModelInformation|null>(this.step1FormState?.selectedModel || null),
-      currentModel: new FormControl<string>(this.step1FormState?.currentModel || ''),
-      selectedColor: new FormControl<Color|null>(this.step1FormState?.selectedColor || null),
-      currentColor: new FormControl<string>(this.step1FormState?.currentColor || ''),
-      imagePathGenerated: new FormControl<string>(this.step1FormState?.imagePathGenerated || ''),
-      isDirty: new FormControl<boolean>(false),
+    this.step1Form.patchValue({
+      selectedModel:this.step1FormState?.selectedModel,
+      currentModel: this.step1FormState?.currentModel,
+      selectedColor: this.step1FormState?.selectedColor,
+      currentColor: this.step1FormState?.currentColor,
+      imagePathGenerated: this.step1FormState?.imagePathGenerated,
     })
 
     this.step1Form.valueChanges.pipe(
@@ -78,6 +99,12 @@ export class Step1Component implements OnInit {
 
   private buildImagePath(modelCode: string, currentColor: string): string {
     return `assets/images/${modelCode}/${currentColor}.jpg`;
+  }
+
+  private setStep1Dirty(selectedModelCode: string) {
+    // Set isDirty to know in step 2 if we keep the current config or reset it
+    const isModelChanged = this.step1FormState?.selectedModel?.code !== selectedModelCode;
+    this.step1Form.get('isDirty')?.setValue(isModelChanged);
   }
 
   private saveNewImagePath(): void {

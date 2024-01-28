@@ -10,7 +10,7 @@ export class TeslaService {
   constructor(private httpClient: HttpClient) { }
 
   getModels(): Observable<ModelInformation[]> {
-    return this.httpHandler<ModelInformation[]>(`/models`);
+    return this.httpHandler<ModelInformation[]>('/models');
   }
 
   getOptionByModel(model: ModelCodeAvailable): Observable<ConfigInformation> {

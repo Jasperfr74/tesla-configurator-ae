@@ -14,8 +14,6 @@ import { Step1FormInterface, Step2FormInterface } from '../core/models/tesla';
   styleUrl: './step-3.component.scss'
 })
 export class Step3Component implements OnInit {
-  // https://angular.dev/style-guide#folders-by-feature-structure
-
   @Input() step1FormState: Step1FormInterface | null = null;
   @Input() step2FormState: Step2FormInterface | null = null;
 
