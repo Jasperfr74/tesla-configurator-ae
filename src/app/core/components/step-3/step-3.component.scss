@@ -40,3 +40,18 @@ table {
     text-transform: uppercase;
   }
 }
+
+@media screen and (max-width: 767px) {
+  table tr, table.horizontal tr {
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 5px;
+  }
+
+  td {
+    text-align: left;
+  }
+}
+
