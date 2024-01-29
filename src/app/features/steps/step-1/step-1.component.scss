@@ -6,3 +6,11 @@
     cursor: pointer;
   }
 }
+
+@media screen and (max-width: 400px) {
+  .step-1-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+  }
+}
